@@ -6,6 +6,7 @@ const AchievementSystem = () => {
   const [level, setLevel] = useState(1);
   const [showNotification, setShowNotification] = useState(false);
   const [latestAchievement, setLatestAchievement] = useState(null);
+  const [isVisible, setIsVisible] = useState(true); // New state for visibility
 
   const achievementsList = [
     { id: 'first_visit', name: 'Neural Pioneer', description: 'Welcome to the future!', points: 100, icon: '🚀' },
@@ -17,6 +18,33 @@ const AchievementSystem = () => {
     { id: 'explorer', name: 'Digital Explorer', description: 'Explored all sections', points: 300, icon: '🗺️' },
     { id: 'sound_master', name: 'Audio Architect', description: 'Enabled sound effects', points: 75, icon: '🔊' }
   ];
+
+  // Scroll detection effect
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY > 200) { // Hide after scrolling 200px
+        if (currentScrollY > lastScrollY) {
+          // Scrolling down
+          setIsVisible(false);
+        } else {
+          // Scrolling up
+          setIsVisible(true);
+        }
+      } else {
+        // Always show when at top
+        setIsVisible(true);
+      }
+      
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     // Award first visit achievement
@@ -74,8 +102,8 @@ const AchievementSystem = () => {
 
   return (
     <>
-      {/* Progress Bar */}
-      <div className="achievement-bar">
+      {/* Progress Bar - Now with visibility control */}
+      <div className={`achievement-bar ${isVisible ? 'visible' : 'hidden'}`}>
         <div className="level-indicator">
           <span className="level-text">Level {level}</span>
           <div className="xp-text">{totalScore} XP</div>
@@ -108,9 +136,9 @@ const AchievementSystem = () => {
         </div>
       )}
 
-      {/* Achievements Panel Toggle */}
+      {/* Achievements Panel Toggle - Also with visibility control */}
       <button 
-        className="achievements-toggle"
+        className={`achievements-toggle ${isVisible ? 'visible' : 'hidden'}`}
         onClick={() => {
           const panel = document.querySelector('.achievements-panel');
           panel.classList.toggle('visible');
