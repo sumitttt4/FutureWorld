@@ -1,0 +1,57 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cityGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a0d2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#0d0717;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d1b69;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="neonGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff00ff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00ffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ff00ff;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="800" height="500" fill="url(#cityGrad)"/>
+  
+  <!-- City buildings -->
+  <rect x="50" y="200" width="60" height="300" fill="#1a1a2e"/>
+  <rect x="120" y="150" width="80" height="350" fill="#16213e"/>
+  <rect x="220" y="180" width="70" height="320" fill="#1a1a2e"/>
+  <rect x="310" y="120" width="90" height="380" fill="#16213e"/>
+  <rect x="420" y="160" width="75" height="340" fill="#1a1a2e"/>
+  <rect x="520" y="100" width="85" height="400" fill="#16213e"/>
+  <rect x="630" y="140" width="70" height="360" fill="#1a1a2e"/>
+  <rect x="720" y="180" width="60" height="320" fill="#16213e"/>
+  
+  <!-- Neon lights on buildings -->
+  <rect x="55" y="220" width="50" height="2" fill="#00ffff" opacity="0.8"/>
+  <rect x="125" y="180" width="70" height="2" fill="#ff00ff" opacity="0.8"/>
+  <rect x="225" y="200" width="60" height="2" fill="#00ffff" opacity="0.8"/>
+  <rect x="315" y="150" width="80" height="2" fill="#ff00ff" opacity="0.8"/>
+  
+  <!-- Silhouette figure -->
+  <ellipse cx="400" cy="420" rx="40" ry="80" fill="#000"/>
+  <circle cx="400" cy="380" r="25" fill="#000"/>
+  
+  <!-- Anime girl silhouette (simplified) -->
+  <ellipse cx="200" cy="300" rx="80" ry="120" fill="#ff00ff" opacity="0.6"/>
+  <ellipse cx="200" cy="250" rx="50" ry="60" fill="#ff00ff" opacity="0.8"/>
+  
+  <!-- Grid lines -->
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#00ffff" stroke-width="0.5" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#grid)"/>
+  
+  <!-- Text -->
+  <text x="400" y="450" text-anchor="middle" fill="url(#neonGrad)" font-family="Arial, sans-serif" font-size="24" font-weight="bold">NEURAL AGE</text>
+  
+  <!-- Scan lines effect -->
+  <rect width="800" height="2" y="100" fill="#00ffff" opacity="0.5">
+    <animateTransform attributeName="transform" type="translate" values="0,0; 0,500; 0,0" dur="3s" repeatCount="indefinite"/>
+  </rect>
+</svg>
