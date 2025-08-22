@@ -28,9 +28,9 @@ const Footer = () => {
             
             <div className="link-group">
               <h3>Connect</h3>
-              <a href="#" className="social-link">GitHub</a>
-              <a href="#" className="social-link">Twitter</a>
-              <a href="#" className="social-link">Discord</a>
+              <a href="https://github.com" className="social-link" target="_blank" rel="noopener noreferrer">GitHub</a>
+              <a href="https://twitter.com" className="social-link" target="_blank" rel="noopener noreferrer">Twitter</a>
+              <a href="https://discord.com" className="social-link" target="_blank" rel="noopener noreferrer">Discord</a>
             </div>
           </div>
         </div>
@@ -41,8 +41,8 @@ const Footer = () => {
             © {currentYear} CyberPunk. All rights reserved.
           </span>
           <div className="footer-legal">
-            <a href="#">Privacy</a>
-            <a href="#">Terms</a>
+            <a href="/privacy" rel="noopener noreferrer">Privacy</a>
+            <a href="/terms" rel="noopener noreferrer">Terms</a>
           </div>
         </div>
       </div>

@@ -1,39 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 const VoiceWelcome = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
 
-  useEffect(() => {
-    // Check if speech synthesis is supported
-    if ('speechSynthesis' in window) {
-      setSpeechSupported(true);
-      
-      // Load voices
-      const loadVoices = () => {
-        const voices = speechSynthesis.getVoices();
-        console.log('Available voices:', voices.map(v => v.name));
-      };
-      
-      if (speechSynthesis.getVoices().length === 0) {
-        speechSynthesis.addEventListener('voiceschanged', loadVoices);
-      } else {
-        loadVoices();
-      }
-    }
-
-    // Auto-play welcome message after a short delay
-    const timer = setTimeout(() => {
-      if (!hasPlayed) {
-        playWelcomeMessage();
-      }
-    }, 3000);
-
-    return () => clearTimeout(timer);
-  }, [hasPlayed]);
-
-  const playWelcomeMessage = () => {
+  const playWelcomeMessage = useCallback(() => {
     if (!speechSupported || isPlaying) return;
 
     setIsPlaying(true);
@@ -87,7 +59,35 @@ const VoiceWelcome = () => {
     setTimeout(() => {
       document.body.style.filter = 'none';
     }, 500);
-  };
+  }, [speechSupported, isPlaying]);
+
+  useEffect(() => {
+    // Check if speech synthesis is supported
+    if ('speechSynthesis' in window) {
+      setSpeechSupported(true);
+      
+      // Load voices
+      const loadVoices = () => {
+        const voices = speechSynthesis.getVoices();
+        console.log('Available voices:', voices.map(v => v.name));
+      };
+      
+      if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.addEventListener('voiceschanged', loadVoices);
+      } else {
+        loadVoices();
+      }
+    }
+
+    // Auto-play welcome message after a short delay
+    const timer = setTimeout(() => {
+      if (!hasPlayed) {
+        playWelcomeMessage();
+      }
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, [hasPlayed, playWelcomeMessage]);
 
   const stopSpeech = () => {
     speechSynthesis.cancel();

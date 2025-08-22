@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 
 const SoundEffects = () => {
   const [audioContext, setAudioContext] = useState(null);
@@ -12,7 +12,7 @@ const SoundEffects = () => {
     }
   }, []);
 
-  const playBeep = (frequency = 800, duration = 200, type = 'sine') => {
+  const playBeep = useCallback((frequency = 800, duration = 200, type = 'sine') => {
     if (!audioContext || !isEnabled) return;
 
     const oscillator = audioContext.createOscillator();
@@ -30,15 +30,15 @@ const SoundEffects = () => {
 
     oscillator.start(audioContext.currentTime);
     oscillator.stop(audioContext.currentTime + duration / 1000);
-  };
+  }, [audioContext, isEnabled]);
 
-  const playHoverSound = () => {
+  const playHoverSound = useCallback(() => {
     playBeep(1200, 100, 'square');
-  };
+  }, [playBeep]);
 
-  const playClickSound = () => {
+  const playClickSound = useCallback(() => {
     playBeep(800, 150, 'sawtooth');
-  };
+  }, [playBeep]);
 
   const playGlitchSound = () => {
     // Create a glitch-like sound effect
@@ -81,7 +81,7 @@ const SoundEffects = () => {
         link.removeEventListener('click', handleClick);
       });
     };
-  }, [isEnabled, audioContext]);
+  }, [isEnabled, audioContext, playClickSound, playHoverSound]);
 
   const toggleSounds = () => {
     if (audioContext && audioContext.state === 'suspended') {

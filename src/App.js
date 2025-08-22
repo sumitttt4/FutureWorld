@@ -18,7 +18,6 @@ import SoundEffects from './components/SoundEffects';
 import ParticleBackground from './components/ParticleBackground';
 import AIChatAssistant from './components/AIChatAssistant';
 import MouseTracker from './components/MouseTracker';
-import AchievementSystem from './components/AchievementSystem';
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -54,38 +53,13 @@ function App() {
         password: 'demo123',
         createdAt: new Date().toISOString(),
         level: 5,
-        xp: 1250,
-        achievements: ['first_game', 'explorer', 'character_select']
+        xp: 1250
       };
       
       const updatedUsers = [...existingUsers, demoUserData];
       localStorage.setItem('cyberpunk_users', JSON.stringify(updatedUsers));
     }
   }, []);
-
-  const handleAchievement = (achievementId) => {
-    console.log('Achievement unlocked:', achievementId);
-    
-    // Update user's achievements if logged in
-    if (currentUser) {
-      const updatedUser = { 
-        ...currentUser, 
-        xp: (currentUser.xp || 0) + 50,
-        level: Math.floor(((currentUser.xp || 0) + 50) / 100) + 1
-      };
-      
-      setCurrentUser(updatedUser);
-      localStorage.setItem('cyberpunk_current_user', JSON.stringify(updatedUser));
-      
-      // Update stored user data
-      const users = JSON.parse(localStorage.getItem('cyberpunk_users') || '[]');
-      const userIndex = users.findIndex(u => u.id === currentUser.id);
-      if (userIndex !== -1) {
-        users[userIndex] = { ...users[userIndex], ...updatedUser };
-        localStorage.setItem('cyberpunk_users', JSON.stringify(users));
-      }
-    }
-  };
 
   const handleAuthSuccess = (authData) => {
     setCurrentUser({
@@ -129,7 +103,6 @@ function App() {
       
       {/* Interactive Systems */}
       <MouseTracker />
-      <AchievementSystem onAchievement={handleAchievement} />
       <AIChatAssistant />
       
       {/* Audio Controls */}
@@ -153,13 +126,12 @@ function App() {
         onSignOut={handleSignOut}
       />
       <Hero currentUser={currentUser} />
-      <Destiny onAchievement={handleAchievement} />
-      <Timeline onAchievement={handleAchievement} />
+      <Destiny />
+      <Timeline />
       <Portals />
       <WorldToggle 
         dystopianMode={dystopianMode} 
         setDystopianMode={setDystopianMode}
-        onAchievement={handleAchievement}
       />
       <Quiz />
       <Contact />

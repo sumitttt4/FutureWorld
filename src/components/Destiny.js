@@ -308,7 +308,7 @@ const Destiny = () => {
                 <button 
                   className="embrace-destiny-btn"
                   onClick={() => {
-                    // Scroll to next section or show achievement
+                    // Scroll to next section
                     document.dispatchEvent(new CustomEvent('destinyChosen', { 
                       detail: { path: selectedPath } 
                     }));

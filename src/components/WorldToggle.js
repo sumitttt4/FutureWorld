@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 
-const WorldToggle = ({ dystopianMode, setDystopianMode, onAchievement }) => {
+const WorldToggle = ({ dystopianMode, setDystopianMode }) => {
   const [currentWorld, setCurrentWorld] = useState('utopia');
   const [selectedCharacter, setSelectedCharacter] = useState(null);
   const [explorationLevel, setExplorationLevel] = useState(0);
@@ -43,7 +43,7 @@ const WorldToggle = ({ dystopianMode, setDystopianMode, onAchievement }) => {
   };
 
   // World stories and narratives
-  const worldNarratives = {
+  const worldNarratives = useMemo(() => ({
     utopia: {
       intro: "Welcome to Neo-Eden, where the merger of human creativity and artificial intelligence has created a paradise of endless possibility...",
       exploration: "As you explore this world, you witness communities where AI serves as a partner, not a master. Technology amplifies human potential rather than replacing it.",
@@ -56,7 +56,7 @@ const WorldToggle = ({ dystopianMode, setDystopianMode, onAchievement }) => {
       discovery: "You uncover the remnants of human culture, preserved by brave souls who refuse to surrender their humanity to algorithmic overlords.",
       conclusion: "Yet even in this darkness, hope persists. The human spirit finds ways to endure, to resist, and to dream of liberation."
     }
-  };
+  }), []);
 
   useEffect(() => {
     if (currentWorld !== 'utopia') {
@@ -73,19 +73,10 @@ const WorldToggle = ({ dystopianMode, setDystopianMode, onAchievement }) => {
     setSelectedCharacter(null);
     setExplorationLevel(0);
     setDiscoveredLocations([]);
-  }, [currentWorld, setDystopianMode]);
+  }, [currentWorld, setDystopianMode, worldNarratives]);
 
   const toggleWorld = (type) => {
     setCurrentWorld(type);
-    
-    // Trigger achievement for world exploration
-    if (onAchievement) {
-      if (type === 'dystopia') {
-        onAchievement('dark_explorer');
-      } else {
-        onAchievement('light_seeker');
-      }
-    }
 
     // Play transition sound effect
     if (environmentSounds) {
@@ -96,10 +87,6 @@ const WorldToggle = ({ dystopianMode, setDystopianMode, onAchievement }) => {
   const selectCharacter = (character) => {
     setSelectedCharacter(character);
     setWorldStory(`You are now embodying ${character.name}, the ${character.role}. ${character.description}`);
-    
-    if (onAchievement) {
-      onAchievement('character_select');
-    }
   };
 
   const exploreLocation = (location) => {
@@ -107,16 +94,6 @@ const WorldToggle = ({ dystopianMode, setDystopianMode, onAchievement }) => {
       setDiscoveredLocations(prev => [...prev, location.id]);
       setExplorationLevel(prev => prev + 1);
       setWorldStory(`🗺️ DISCOVERY: ${location.name} - ${location.description}`);
-      
-      if (onAchievement) {
-        onAchievement('explorer');
-        if (explorationLevel >= 2) {
-          onAchievement('world_mapper');
-        }
-        if (explorationLevel >= 4) {
-          onAchievement('master_explorer');
-        }
-      }
     }
   };
 

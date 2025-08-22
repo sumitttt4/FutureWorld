@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const Timeline = ({ onAchievement }) => {
+const Timeline = () => {
   const [activeGame, setActiveGame] = useState(null);
   const [gameScores, setGameScores] = useState({});
 
@@ -319,39 +319,6 @@ const Timeline = ({ onAchievement }) => {
   const handleGameScore = (year, score) => {
     setGameScores(prev => {
       const newScore = Math.max(prev[year] || 0, score);
-      const oldScore = prev[year] || 0;
-      
-      // Trigger achievements based on scores
-      if (newScore > oldScore && onAchievement) {
-        if (score >= 100) {
-          onAchievement('century_club');
-        }
-        if (score >= 500) {
-          onAchievement('high_scorer');
-        }
-        if (score >= 1000) {
-          onAchievement('legendary_gamer');
-        }
-        
-        // First game completion
-        if (oldScore === 0 && newScore > 0) {
-          onAchievement('first_game');
-        }
-        
-        // Year-specific achievements
-        if (year === '2025' && newScore > 50) {
-          onAchievement('time_traveler_2025');
-        }
-        if (year === '2030' && newScore > 50) {
-          onAchievement('time_traveler_2030');
-        }
-        if (year === '2040' && newScore > 50) {
-          onAchievement('time_traveler_2040');
-        }
-        if (year === '2050' && newScore > 50) {
-          onAchievement('time_traveler_2050');
-        }
-      }
       
       return {
         ...prev,
